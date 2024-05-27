@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function LoginPage() {
   const handleSubmit = (event) => {
@@ -86,15 +87,12 @@ export default function LoginPage() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <RouterLink to="/signup">
+                  <Typography variant="body2">
+                    Don't have an account? Sign Up
+                  </Typography>
+                </RouterLink>
               </Grid>
             </Grid>
           </Box>
