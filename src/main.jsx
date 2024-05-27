@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import Typography from "@mui/material/Typography";
 
 import {
   createBrowserRouter,
@@ -8,17 +9,23 @@ import {
   RouterProvider,
   Route,
   Link as RouterLink,
-  Router,
 } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import MainPage from "./pages/MainPage";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements([
-    <Route path="/" element={<div>Home</div>} />,
+    <Route path="/" element={<LoginPage />} />,
     <Route path="/login" element={<LoginPage />} />,
     <Route path="/signup" element={<SignUpPage />} />,
+    <Route path="/main" element={<MainPage />}>
+      <Route path="" element={<div>All Notes</div>} />
+      <Route path="pinned" element={<div>Pinned Notes</div>} />
+      <Route path="create" element={<div>Create Notes</div>} />
+    </Route>,
   ])
 );
 
