@@ -11,10 +11,12 @@ import {
   Router,
 } from "react-router-dom";
 
+import LoginPage from "./pages/Login";
+
 const router = createBrowserRouter(
   createRoutesFromElements([
     <Router path='/' elment = {<div>Home</div>} />,
-    <Router path='/login' elment = {<div>Login</div>} />, 
+    <Router path='/login' elment = {<LoginPage />} />, 
     <Router path='/signup' elment = {<div>Signup</div>} />
   ])
 );
