@@ -50,7 +50,7 @@ export default function CreateNote() {
                 id="content"
                 label="Note Content"
                 name="content"
-                minRows={4}
+                minRows={6}
                 maxRows={12}
               />
             </Grid>

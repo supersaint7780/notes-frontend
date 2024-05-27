@@ -8,10 +8,10 @@ import Container from "@mui/material/Container";
 
 export default function MainPage() {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{backgroundColor: '#EEEEEE', minHeight: "100vh"}}>
       <CssBaseline />
       <NavBar />
-      <Container component="main" sx={{ p: 3 }}>
+      <Container sx={{py:3}} component="main" disableGutters>
         <Toolbar />
         <Container component="div">
           <Outlet />

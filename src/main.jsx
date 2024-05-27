@@ -15,6 +15,8 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import MainPage from "./pages/MainPage";
 import CreateNote from "./pages/CreateNote";
+import AllNotes from "./pages/AllNotes";
+import PinnedNotes from "./pages/PinnedNote";
 
 
 const router = createBrowserRouter(
@@ -23,8 +25,8 @@ const router = createBrowserRouter(
     <Route path="/login" element={<LoginPage />} />,
     <Route path="/signup" element={<SignUpPage />} />,
     <Route path="/main" element={<MainPage />}>
-      <Route path="" element={<div>All Notes</div>} />
-      <Route path="pinned" element={<div>Pinned Notes</div>} />
+      <Route path="" element={<AllNotes />} />
+      <Route path="pinned" element={<PinnedNotes />} />
       <Route path="create" element={<CreateNote />} />
     </Route>,
   ])
