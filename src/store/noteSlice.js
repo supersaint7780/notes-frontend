@@ -13,7 +13,7 @@ export const createNoteSlice = (set) => ({
       console.log("Error fetching notes: ", error);
     }
   },
-  createNote: async (title, content) => {
+  createNote: async ({ title, content }) => {
     try {
       const response = await fetch(
         "https://notes-backend-ck0s.onrender.com/api/v1/notes/create",

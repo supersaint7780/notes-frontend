@@ -50,7 +50,7 @@ export const createAuthSlice = (set, get) => ({
     }
   },
 
-  signup: async (firstName, lastName, email, username, password) => {
+  signup: async ({ firstName, lastName, email, username, password }) => {
     const fullName = firstName + lastName;
     try {
       const response = await fetch(

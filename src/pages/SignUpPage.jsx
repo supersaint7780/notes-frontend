@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,15 +9,47 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useBoundStore } from "../store/useBoundStore";
 
 export default function SignUpPage() {
-  const handleSubmit = (event) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const { signup } = useBoundStore();
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const userCreated = await signup(formData);
+    if (userCreated) {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+      });
+      navigate("/login");
+    } else {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+      });
+    }
   };
 
   return (
@@ -43,6 +75,8 @@ export default function SignUpPage() {
               <TextField
                 autoComplete="given-name"
                 name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 required
                 fullWidth
                 id="firstName"
@@ -54,6 +88,8 @@ export default function SignUpPage() {
               <TextField
                 required
                 fullWidth
+                value={formData.lastName}
+                onChange={handleChange}
                 id="lastName"
                 label="Last Name"
                 name="lastName"
@@ -64,6 +100,8 @@ export default function SignUpPage() {
               <TextField
                 required
                 fullWidth
+                value={formData.username}
+                onChange={handleChange}
                 id="username"
                 label="Username"
                 name="username"
@@ -74,6 +112,8 @@ export default function SignUpPage() {
               <TextField
                 required
                 fullWidth
+                value={formData.email}
+                onChange={handleChange}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -84,6 +124,8 @@ export default function SignUpPage() {
               <TextField
                 required
                 fullWidth
+                value={formData.password}
+                onChange={handleChange}
                 name="password"
                 label="Password"
                 type="password"
