@@ -16,9 +16,9 @@ import SignUpPage from "./pages/SignUpPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements([
-    <Router path="/" elment={<div>Home</div>} />,
-    <Router path="/login" elment={<LoginPage />} />,
-    <Router path="/signup" elment={<SignUpPage />} />,
+    <Route path="/" element={<div>Home</div>} />,
+    <Route path="/login" element={<LoginPage />} />,
+    <Route path="/signup" element={<SignUpPage />} />,
   ])
 );
 

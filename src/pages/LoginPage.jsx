@@ -30,10 +30,10 @@ export default function LoginPage() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
+          backgroundImage: `url("./src/assests/login_side.jpg")`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "bottom",
         }}
       />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
