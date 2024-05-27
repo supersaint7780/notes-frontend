@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -6,15 +6,28 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useBoundStore } from "../store/useBoundStore";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateNote() {
-  const handleSubmit = (event) => {
+  const [formData, setFormData] = useState({ title: "", content: "" });
+  const { createNote } = useBoundStore();
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("title"),
-      password: data.get("content"),
-    });
+    const noteCreated = await createNote(formData);
+    if(noteCreated) {
+      setFormData({title: "", content: ""});
+      navigate('/main')
+    } else {
+      setFormData({title: "", content: ""});
+    }
   };
 
   return (
@@ -40,6 +53,8 @@ export default function CreateNote() {
                 id="title"
                 label="Note Title"
                 name="title"
+                value={formData.title}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -50,6 +65,8 @@ export default function CreateNote() {
                 id="content"
                 label="Note Content"
                 name="content"
+                value={formData.content}
+                onChange={handleChange}
                 minRows={6}
                 maxRows={12}
               />
