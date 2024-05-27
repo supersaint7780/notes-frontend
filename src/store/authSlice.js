@@ -4,7 +4,7 @@ export const createAuthSlice = (set, get) => ({
   user: null,
   token: null,
 
-  login: async (email, password) => {
+  login: async ({ email, password }) => {
     try {
       const response = await fetch(
         "https://notes-backend-ck0s.onrender.com/api/v1/user/login",
@@ -13,15 +13,20 @@ export const createAuthSlice = (set, get) => ({
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ email, password }),
         }
       );
 
       if (response.ok) {
-        const { user, accessToken, refreshToken } = await response.json();
+        let { data } = await response.json();
+        let { user, accessToken, refreshToken } = data;
 
-        accessToken = accessToken || Cookies.get("accessToken");
-        refreshToken = refreshToken || Cookies.get("refreshToken");
+        // Cookies.set("accessToken", accessToken);
+        // Cookies.set("refreshToken", refreshToken);
+
+        // accessToken = accessToken || Cookies.get("accessToken");
+        // refreshToken = refreshToken || Cookies.get("refreshToken");
 
         if (accessToken && refreshToken) {
           set({ user });
@@ -40,10 +45,15 @@ export const createAuthSlice = (set, get) => ({
 
   logout: async () => {
     try {
-      await fetch("https://notes-backend-ck0s.onrender.com/api/v1/user/logout");
+      await fetch(
+        "https://notes-backend-ck0s.onrender.com/api/v1/user/logout",
+        {
+          credentials: "include",
+        }
+      );
 
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
+      // Cookies.remove("accessToken");
+      // Cookies.remove("refreshToken");
       set({ user: null, token: null });
     } catch (error) {
       console.error("Logout error:", error);
@@ -60,13 +70,14 @@ export const createAuthSlice = (set, get) => ({
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ fullName, email, username, password }),
         }
       );
 
       if (response.ok) {
-        const user = await response.json();
-        set({ user });
+        const { data } = await response.json();
+        set({ user: data.user });
         return true;
       }
 
@@ -80,11 +91,14 @@ export const createAuthSlice = (set, get) => ({
   refreshToken: async () => {
     try {
       const response = await fetch(
-        "https://notes-backend-ck0s.onrender.com/api/v1/user/refresh-token"
+        "https://notes-backend-ck0s.onrender.com/api/v1/user/refresh-token",
+        {
+          credentials: "include",
+        }
       );
 
       if (response.ok) {
-        const data = await response.json();
+        const { data } = await response.json();
         set({ token: data.accessToken });
         return data.accessToken;
       }
@@ -100,7 +114,10 @@ export const createAuthSlice = (set, get) => ({
     if (refreshToken) {
       const accessToken = await get().refreshToken();
       const response = await fetch(
-        "https://notes-backend-ck0s.onrender.com/api/v1/user/current-user"
+        "https://notes-backend-ck0s.onrender.com/api/v1/user/current-user",
+        {
+          credentials: "include",
+        }
       );
       const user = await response.json();
       if (accessToken) {

@@ -3,10 +3,14 @@ export const createNoteSlice = (set) => ({
   getAllNotes: async () => {
     try {
       const response = await fetch(
-        "https://notes-backend-ck0s.onrender.com/api/v1/notes/all"
+        "https://notes-backend-ck0s.onrender.com/api/v1/notes/all",
+        {
+          credentials: "include",
+        }
       );
       if (response.ok) {
-        const notes = await response.json();
+        const { data } = await response.json();
+        const notes = data;
         set({ notes });
       }
     } catch (error) {
@@ -22,11 +26,13 @@ export const createNoteSlice = (set) => ({
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ title, content }),
         }
       );
       if (response.ok) {
-        const note = await response.json();
+        const { data } = await response.json();
+        const note = data;
         set((state) => ({ notes: [...state.notes, note] }));
         return true;
       }
@@ -41,6 +47,7 @@ export const createNoteSlice = (set) => ({
         `https://notes-backend-ck0s.onrender.com/api/v1/notes/delete/${id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       if (response.ok) {
