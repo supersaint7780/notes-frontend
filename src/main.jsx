@@ -14,6 +14,7 @@ import {
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import MainPage from "./pages/MainPage";
+import CreateNote from "./pages/CreateNote";
 
 
 const router = createBrowserRouter(
@@ -24,7 +25,7 @@ const router = createBrowserRouter(
     <Route path="/main" element={<MainPage />}>
       <Route path="" element={<div>All Notes</div>} />
       <Route path="pinned" element={<div>Pinned Notes</div>} />
-      <Route path="create" element={<div>Create Notes</div>} />
+      <Route path="create" element={<CreateNote />} />
     </Route>,
   ])
 );
