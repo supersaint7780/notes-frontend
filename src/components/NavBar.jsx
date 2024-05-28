@@ -4,8 +4,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link as RouterLink } from "react-router-dom";
+import { useBoundStore } from "../store/useBoundStore";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
+  const navigate = useNavigate();
+  const { logout } = useBoundStore();
+
+  const handleLogout = async () => {
+    const isLoggedOut = await logout();
+    if(isLoggedOut) {
+      navigate('/');
+    }
+  }
+
   return (
     <AppBar component="nav">
       <Toolbar>
@@ -41,7 +53,7 @@ export default function NavBar() {
               Create
             </RouterLink>
           </Button>
-          <Button sx={{ color: "#fff", px: "1rem" }}>Logout</Button>
+          <Button sx={{ color: "#fff", px: "1rem" }} onClick={handleLogout  }>Logout</Button>
         </Box>
       </Toolbar>
     </AppBar>

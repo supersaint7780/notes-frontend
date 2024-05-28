@@ -37,16 +37,22 @@ export const createAuthSlice = (set, get) => ({
 
   logout: async () => {
     try {
-      await fetch(
+      const response = await fetch(
         "https://notes-backend-ck0s.onrender.com/api/v1/user/logout",
         {
           credentials: "include",
         }
       );
 
-      set({ user: null });
+      if(response.ok) {
+        set({ user: null });
+        return true;
+      }
+      return false;
+
     } catch (error) {
       console.error("Logout error:", error);
+      return false;
     }
   },
 
