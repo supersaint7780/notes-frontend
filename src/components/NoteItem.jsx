@@ -1,58 +1,78 @@
-import {
-  Card,
-  Paper,
-  CardActions,
-  CardContent,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
+import { Paper, CardContent, Typography, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import PushPinIcon from "@mui/icons-material/PushPin";
+import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
+import { styled } from "@mui/system";
+import { useState } from "react";
+
+const NoteCard = styled(Paper)(({ theme }) => ({
+  position: "relative",
+  "&:hover": {
+    outline: "1px solid black",
+  },
+  "&:hover .actions": {
+    opacity: 1,
+  },
+  width: 300,
+  borderRadius: "0.5rem",
+  padding: theme.spacing(0.5),
+  transition: "outline ease-in 0.3s",
+}));
+
+const Actions = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "flex-end",
+  opacity: 0,
+  transition: "opacity 0.3s",
+  padding: theme.spacing(0.75),
+  gap: "0.5rem",
+}));
+
+const PinButton = styled(IconButton)(({ theme, isPinned }) => ({
+  position: "absolute",
+  top: theme.spacing(0.5),
+  right: theme.spacing(0.5),
+  opacity: isPinned ? 1 : 0,
+  transition: "opacity 0.3s",
+  "&:hover": {
+    opacity: 1,
+  },
+}));
 
 export default function NoteItem({ note }) {
+  const [isPinned, setIsPinned] = useState(false);
+
+  const handlePin = () => {
+    setIsPinned(!isPinned);
+  };
+
   return (
-    <Paper square={false} sx={{ borderRadius: "0.5rem", p:0.5 }} elevation={3}>
+    <NoteCard square={false} elevation={3}>
+      <PinButton isPinned={isPinned} onClick={handlePin}>
+        {isPinned ? (
+          <PushPinIcon fontSize="small" />
+        ) : (
+          <PushPinOutlinedIcon fontSize="small" />
+        )}
+      </PinButton>
       <CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-            paddingBottom: "0.5rem",
-          }}
-        >
-          <Typography gutterBottom variant="h5" component="div">
-            {note.title}
-          </Typography>
-          {note.isPinned && (
-            <IconButton>
-              <PushPinIcon />
-            </IconButton>
-          )}
-        </Box>
+        <Typography gutterBottom variant="h5" component="div">
+          {note.title}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
           {note.content}
         </Typography>
       </CardContent>
-      <CardActions
-        style={{ justifyContent: "flex-end", paddingBottom: "0.75rem" }}
-      >
-        <Button size="small" variant="contained" startIcon={<EditIcon />}>
-          Edit
-        </Button>
-        <Button
-          size="small"
-          variant="outlined"
-          color="error"
-          startIcon={<DeleteIcon />}
-        >
-          Delete
-        </Button>
-      </CardActions>
-    </Paper>
+      <Actions className="actions">
+        <IconButton color="primary" size="small">
+          <EditIcon fontSize="small" />
+        </IconButton>
+        <IconButton color="error" size="small">
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Actions>
+    </NoteCard>
   );
 }
