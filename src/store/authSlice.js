@@ -99,19 +99,22 @@ export const createAuthSlice = (set, get) => ({
   },
 
   checkAuth: async () => {
-    const refreshToken = Cookies.get("refresh-token");
-    if (refreshToken) {
-      const accessToken = await get().refreshToken();
+    try {
       const response = await fetch(
         "https://notes-backend-ck0s.onrender.com/api/v1/user/current-user",
         {
           credentials: "include",
         }
       );
-      const user = await response.json();
-      if (accessToken) {
-        set({ user: user });
+      if (response.ok) {
+        const { data } = await response.json();
+        set({ user: data.user });
+        return true;
       }
+      return false;
+    } catch (error) {
+      console.log("Authentication error:", error);
+      return false;
     }
   },
 });
