@@ -2,7 +2,6 @@ import Cookies from "js-cookie";
 
 export const createAuthSlice = (set, get) => ({
   user: null,
-  token: null,
 
   login: async ({ email, password }) => {
     try {
@@ -22,15 +21,8 @@ export const createAuthSlice = (set, get) => ({
         let { data } = await response.json();
         let { user, accessToken, refreshToken } = data;
 
-        // Cookies.set("accessToken", accessToken);
-        // Cookies.set("refreshToken", refreshToken);
-
-        // accessToken = accessToken || Cookies.get("accessToken");
-        // refreshToken = refreshToken || Cookies.get("refreshToken");
-
         if (accessToken && refreshToken) {
           set({ user });
-          set({ token: accessToken });
         }
 
         return true;
@@ -52,9 +44,7 @@ export const createAuthSlice = (set, get) => ({
         }
       );
 
-      // Cookies.remove("accessToken");
-      // Cookies.remove("refreshToken");
-      set({ user: null, token: null });
+      set({ user: null });
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -99,7 +89,6 @@ export const createAuthSlice = (set, get) => ({
 
       if (response.ok) {
         const { data } = await response.json();
-        set({ token: data.accessToken });
         return data.accessToken;
       }
       return null;
@@ -121,7 +110,6 @@ export const createAuthSlice = (set, get) => ({
       );
       const user = await response.json();
       if (accessToken) {
-        set({ token: accessToken });
         set({ user: user });
       }
     }
