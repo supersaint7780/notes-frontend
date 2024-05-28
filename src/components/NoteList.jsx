@@ -7,7 +7,7 @@ export default function NoteList({ notes }) {
     <Box>
       <Masonry columns={4} spacing={4}>
         {notes.map((note) => (
-          <NoteItem key={note.id} note={note} />
+          <NoteItem key={note._id} note={note} />
         ))}
       </Masonry>
     </Box>

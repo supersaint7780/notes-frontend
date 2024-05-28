@@ -54,9 +54,12 @@ export const createNoteSlice = (set) => ({
         set((state) => ({
           notes: state.notes.filter((note) => note._id !== id),
         }));
+        return true;
       }
+      return false;
     } catch (error) {
-      console.log("Error:", error);
+      console.log("Unable to delete note:", error);
+      return false;
     }
   },
   pinNote: async (id) => {

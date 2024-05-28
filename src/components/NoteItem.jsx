@@ -42,10 +42,13 @@ const PinButton = styled(IconButton)(({ theme, isPinned }) => ({
 }));
 
 export default function NoteItem({ note }) {
-  const { pinNote } = useBoundStore();
+  const { pinNote, deleteNote } = useBoundStore();
 
   const handlePin = async () => {
     await pinNote(note._id);
+  };
+  const handleDelete = async () => {
+    await deleteNote(note._id);
   };
 
   return (
@@ -69,7 +72,7 @@ export default function NoteItem({ note }) {
         <IconButton color="primary" size="small">
           <EditIcon fontSize="small" />
         </IconButton>
-        <IconButton color="error" size="small">
+        <IconButton color="error" size="small" onClick={handleDelete}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Actions>
