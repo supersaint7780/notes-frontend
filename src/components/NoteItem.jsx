@@ -6,6 +6,7 @@ import PushPinIcon from "@mui/icons-material/PushPin";
 import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 import { styled } from "@mui/system";
 import { useState } from "react";
+import { useBoundStore } from "../store/useBoundStore";
 
 const NoteCard = styled(Paper)(({ theme }) => ({
   position: "relative",
@@ -43,9 +44,13 @@ const PinButton = styled(IconButton)(({ theme, isPinned }) => ({
 
 export default function NoteItem({ note }) {
   const [isPinned, setIsPinned] = useState(false);
+  const { pinNote } = useBoundStore();
 
-  const handlePin = () => {
-    setIsPinned(!isPinned);
+  const handlePin = async () => {
+    const pinSuccessful = await pinNote(note._id);
+    if(pinSuccessful) {
+      setIsPinned(!isPinned);
+    }
   };
 
   return (

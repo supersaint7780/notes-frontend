@@ -80,9 +80,12 @@ export const createNoteSlice = (set) => ({
             }
           }),
         }));
+        return true;
       }
+      return false;
     } catch (error) {
       console.log("Unable to pin note:", error);
+      return false;
     }
   },
 });
