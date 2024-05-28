@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 export const createAuthSlice = (set, get) => ({
   user: null,
 
@@ -104,22 +102,21 @@ export const createAuthSlice = (set, get) => ({
     }
   },
 
-  checkAuth: async () => {
+  checkAuthStatus: async () => {
     try {
       const response = await fetch(
-        "https://notes-backend-ck0s.onrender.com/api/v1/user/current-user",
+        "https://notes-backend-ck0s.onrender.com/api/v1/user/auth-status",
         {
           credentials: "include",
         }
       );
       if (response.ok) {
         const { data } = await response.json();
-        set({ user: data.user });
-        return true;
+        return data.isAuthenticated;
       }
       return false;
     } catch (error) {
-      console.log("Authentication error:", error);
+      console.log(" error:", error);
       return false;
     }
   },
