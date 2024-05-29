@@ -1,4 +1,5 @@
 export const createAuthSlice = (set, get) => ({
+  isAuthenticated: false,
   user: null,
 
   login: async ({ email, password }) => {
@@ -17,10 +18,10 @@ export const createAuthSlice = (set, get) => ({
 
       if (response.ok) {
         let { data } = await response.json();
-        let { user, accessToken, refreshToken } = data;
+        let { accessToken, refreshToken } = data;
 
         if (accessToken && refreshToken) {
-          set({ user });
+          set({ isAuthenticated: true });
         }
 
         return true;
@@ -42,12 +43,11 @@ export const createAuthSlice = (set, get) => ({
         }
       );
 
-      if(response.ok) {
-        set({ user: null });
+      if (response.ok) {
+        set({ isAuthenticated: false });
         return true;
       }
       return false;
-
     } catch (error) {
       console.error("Logout error:", error);
       return false;
@@ -71,7 +71,7 @@ export const createAuthSlice = (set, get) => ({
 
       if (response.ok) {
         const { data } = await response.json();
-        set({ user: data.user });
+        set({ user: data });
         return true;
       }
 
