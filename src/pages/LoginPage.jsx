@@ -11,6 +11,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useBoundStore } from "../store/useBoundStore";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -28,14 +29,28 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const userCreated = await login(formData);
-    if (userCreated) {
-      setFormData({
-        email: "",
-        password: "",
-      });
-      navigate("/main");
-    } else {
+    const loginPromise = login(formData);
+    toast.promise(loginPromise, {
+      loading: "Loading",
+      success: "Logged In",
+      error: "Login Failed",
+    });
+
+    try {
+      const userCreated = await loginPromise;
+      if (userCreated) {
+        setFormData({
+          email: "",
+          password: "",
+        });
+        navigate("/main");
+      } else {
+        setFormData({
+          email: "",
+          password: "",
+        });
+      }
+    } catch (error) {
       setFormData({
         email: "",
         password: "",
